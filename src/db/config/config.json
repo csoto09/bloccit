@@ -18,10 +18,13 @@
     "operatorsAliases": false
   },
   "production": {
-    "username": "postgres",
+    "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false,
+    "operatorsAliases": false,
+    "use_env_variable": "postgresql-cubed-56386"
   }
 }
