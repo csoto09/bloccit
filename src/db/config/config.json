@@ -25,6 +25,6 @@
     "dialect": "postgres",
     "logging": false,
     "operatorsAliases": false,
-    "use_env_variable": "postgresql-cubed-56386"
+    "use_env_variable": "DATABASE_URL"
   }
 }
