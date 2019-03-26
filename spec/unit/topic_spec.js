@@ -50,24 +50,16 @@ describe('Topic', () => {
   })
   
   describe('#getPosts()', () => {
-    it('should create a post associated with the previously defined topic in scope.', (done) => {
-      Post.create({
-        title: "Pros of Cryosleep during the long journey",
-        body: "1. Not having to answer the 'are we there yet?' question.",
-        topicId: this.topic.id
-      })
-      .then((post) => {
-        expect(post.title).toBe("Pros of Cryosleep during the long journey");
-        expect(post.body).toBe("1. Not having to answer the 'are we there yet?' question.");
-        expect(post.topicId).toBe(this.topic.id)
+    it('should not create a topic with invalid attributes', (done) => {
+      Topic.create({
+        title: 'AvGeeks'
+      }).then((topic) => {
         done()
-      })
-      .catch((err) => {
-        console.log(err);
+      }).catch((err) => {
+        expect(err.message).toContain("Topic.description cannot be null");
         done();
-      });
+      })
     })
-
     it("should return posts associated with the previously defined topic.", (done) => {
       this.topic.getPosts()
       .then((childPosts) => {
