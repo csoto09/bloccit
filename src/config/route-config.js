@@ -4,7 +4,7 @@ module.exports = {
     const topicRoutes = require('../routes/topics')
     const adsRoutes = require('../routes/ads')
     const postRoutes = require('../routes/posts')
-    const flairRoutes = require('../routes/flairs');
+    const flairRoutes = require('../routes/flairs')
 
     app.use(staticRoutes)
     app.use(postRoutes)
