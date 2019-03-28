@@ -47,9 +47,6 @@ describe('Topic', () => {
         done()
       })
     })
-  })
-  
-  describe('#getPosts()', () => {
     it('should not create a topic with invalid attributes', (done) => {
       Topic.create({
         title: 'AvGeeks'
@@ -60,6 +57,9 @@ describe('Topic', () => {
         done();
       })
     })
+  })
+  
+  describe('#getPosts()', () => {
     it("should return posts associated with the previously defined topic.", (done) => {
       this.topic.getPosts()
       .then((childPosts) => {
