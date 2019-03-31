@@ -5,11 +5,13 @@ module.exports = {
     const adsRoutes = require('../routes/ads')
     const postRoutes = require('../routes/posts')
     const flairRoutes = require('../routes/flairs');
+    const userRoutes = require('../routes/users');
 
     app.use(staticRoutes)
     app.use(postRoutes)
     app.use(topicRoutes)
     app.use(adsRoutes)
     app.use(flairRoutes)
+    app.use(userRoutes)
   }
 }
