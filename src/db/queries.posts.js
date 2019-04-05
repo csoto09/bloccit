@@ -17,6 +17,13 @@ module.exports = {
       include: [{
         model: Flair,
         as: 'flairs',        
+      },
+      {
+        model: Comment, 
+        as: "comments", 
+        include: [
+          {model: User }
+        ]
       }]
     })
     .then((post) => {
