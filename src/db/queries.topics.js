@@ -1,6 +1,6 @@
 const Topic = require("./models").Topic;
 const Post = require('./models').Post
-
+const Authorizer = require("../policies/topic")
 module.exports = {
 
   getAllTopics(callback){
@@ -62,7 +62,7 @@ module.exports = {
   updateTopic(req, updatedTopic, callback){
 
     // #1
-    return Topic.findById(req.params.id)
+    return Topic.findByPk(req.params.id)
     .then((topic) => {
 
     // #2

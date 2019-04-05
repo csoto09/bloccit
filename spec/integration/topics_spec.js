@@ -159,15 +159,27 @@ describe('routes : topics', () => {
 
   })
   describe("member user performing CRUD actions for Topic", () => {
-    beforeEach((done) => {  // before each suite in admin context
-      request.get({
-        url: "http://localhost:3000/auth/fake",
-        form: {
-          role: "member"
-        }
+    beforeEach((done) => {
+      User.create({
+        email: "starman@tesla.com",
+        password: "Trekkie4lyfe",
+        role: "member"
+      })
+      .then((user) => {
+        request.get({         // mock authentication
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role, 
+            userId: user.id,
+            email: user.email
+          }
+        },
+          (err, res, body) => {
+            done();
+          }
+        );
       });
-      done();
-    }); 
+    });
     describe('GET /topics', () => {
       it('should respond with all topics', (done) => {
         request.get(base, (err, res, body) => {
@@ -276,7 +288,7 @@ describe('routes : topics', () => {
               where: { id:1 }
             })
             .then((topic) => {
-              expect(topic.title).toBe("JavaScript Frameworks");
+              expect(topic.title).not.toBe("JavaScript Frameworks");
               done();
             })
           });
