@@ -22,7 +22,7 @@ describe("routes : comments", () => {
         password: "Trekkie4lyfe"
       })
       .then((user) => {
-        this.user = user;  // store user
+        this.user = user;
 
         Topic.create({
           title: "Expeditions to Alpha Centauri",
@@ -63,7 +63,9 @@ describe("routes : comments", () => {
       });
     });
   });
+
   describe("guest attempting to perform CRUD actions for Comment", () => {
+
     beforeEach((done) => {
       request.get({
         url: "http://localhost:3000/auth/fake",
@@ -76,8 +78,8 @@ describe("routes : comments", () => {
         }
       );
     });
-    describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
 
+    describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should not create a new comment", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
@@ -89,7 +91,7 @@ describe("routes : comments", () => {
           (err, res, body) => {
             Comment.findOne({where: {body: "This comment is amazing!"}})
             .then((comment) => {
-              expect(comment).toBeNull();   // ensure no comment was created
+              expect(comment).toBeNull();
               done();
             })
             .catch((err) => {

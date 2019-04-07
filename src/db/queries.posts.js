@@ -1,6 +1,8 @@
 const Post = require("./models").Post;
 const Topic = require("./models").Topic;
 const Flair = require("./models").Flair;
+const Comment = require("./models").Comment;
+const User = require("./models").User;
 
 module.exports = {
   addPost(newPost, callback){
