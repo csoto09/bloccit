@@ -3,6 +3,7 @@ const Topic = require("./models").Topic;
 const Flair = require("./models").Flair;
 const Comment = require("./models").Comment;
 const User = require("./models").User;
+const Vote = require('./models').Vote;
 
 module.exports = {
   addPost(newPost, callback){
@@ -20,13 +21,14 @@ module.exports = {
         model: Flair,
         as: 'flairs',        
       },
-      {
-        model: Comment, 
-        as: "comments", 
-        include: [
-          {model: User }
-        ]
-      }]
+        {
+          model: Comment, 
+          as: "comments", 
+          include: [
+            {model: User }
+          ]
+        }, {model: Vote, as: 'votes'}
+      ]
     })
     .then((post) => {
       callback(null, post);
