@@ -1,6 +1,5 @@
 const Post = require("./models").Post;
 const Topic = require("./models").Topic;
-const Flair = require("./models").Flair;
 const Comment = require("./models").Comment;
 const User = require("./models").User;
 const Vote = require('./models').Vote;
@@ -17,17 +16,10 @@ module.exports = {
   },
   getPost(id, callback){
     return Post.findByPk(id, {
-      include: [{
-        model: Flair,
-        as: 'flairs',        
-      },
-        {
-          model: Comment, 
-          as: "comments", 
-          include: [
-            {model: User }
-          ]
-        }, {model: Vote, as: 'votes'}
+      include: [ 
+        {model: Comment, as: "comments", include: [
+          {model: User }
+        ]}, {model: Vote, as: 'votes'}
       ]
     })
     .then((post) => {
