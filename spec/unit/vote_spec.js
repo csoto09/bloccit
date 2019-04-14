@@ -110,6 +110,20 @@ describe("Vote", () => {
       });
     });
 
+
+    it('should not create a vote with values other than -1 or 1', (done) => {
+      Vote.create({
+        value: 2,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+        done() //skipped by validation fail. catch error below
+      }).catch((err) => {
+        expect(err.message).toContain('Validation isIn on value failed');
+        done()
+      });
+    });
 // #6
     it("should not create a vote without assigned post or user", (done) => {
       Vote.create({

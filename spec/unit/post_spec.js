@@ -2,6 +2,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote
 
 describe("Post", () => {
 
@@ -144,6 +145,111 @@ describe("Post", () => {
         expect(associatedTopic.title).toBe("Expeditions to Alpha Centauri");
         done();
       });
+    });
+  });
+  describe('#getPoints()', () => {
+    it('should return amount of points for associated post',(done) => {
+      Post.findOne({
+        where: {id: this.post.id},
+        include: [{
+          model: Vote,
+          as: 'votes'
+        }]
+      })
+      .then((post) => {
+        expect(post.getPoints()).toBe(0); // set baseline
+        Vote.create({ // create vote and associate it with post
+          value: 1,
+          userId: this.user.id,
+          postId: this.post.id
+        })
+        .then((res) => {
+          Post.findOne({
+            where: {id: this.post.id},
+            include: [{
+              model: Vote,
+              as: 'votes'
+            }]
+          })
+          .then((post) => {
+            expect(post.getPoints()).toBe(1); // verify vote is counted and value of getPoints() has changed accordingly
+            done()
+          }).catch((err) => {
+            console.log(err);
+            done()
+          });
+        })
+      })
+    })
+  });
+
+  describe('#hasUpvoteFor()', () => {
+    it('should return true if user has upvote for post', (done) => {
+      Post.findOne({
+        where: {id: this.post.id},
+        include: [{
+          model: Vote,
+          as: 'votes'
+        }]
+      })
+      .then((post) => {
+        expect(post.hasUpvoteFor(this.user.id)).toBe(false);
+        Vote.create({
+          value: 1,
+          userId: this.user.id,
+          postId: this.post.id
+        })
+        .then((result) => {
+          Post.findOne({
+            where: {id: this.post.id},
+            include: [{
+              model: Vote,
+              as: 'votes'
+            }]
+          }).then((post) => {
+            expect(post.hasUpvoteFor(this.user.id)).toBe(true);
+            done()
+          }).catch((err) => {
+            console.log(err);
+            done()
+          })
+        })
+      })
+    });
+  });
+
+  describe('#hasDownvoteFor()', () => {
+    it('should return true if user has Downvote for post', (done) => {
+      Post.findOne({
+        where: {id: this.post.id},
+        include: [{
+          model: Vote,
+          as: 'votes'
+        }]
+      })
+      .then((post) => {
+        expect(post.hasDownvoteFor(this.user.id)).toBe(false);
+        Vote.create({
+          value: 1,
+          userId: this.user.id,
+          postId: this.post.id
+        })
+        .then((result) => {
+          Post.findOne({
+            where: {id: this.post.id},
+            include: [{
+              model: Vote,
+              as: 'votes'
+            }]
+          }).then((post) => {
+            expect(post.hasDownvoteFor(this.user.id)).toBe(true);
+            done()
+          }).catch((err) => {
+            console.log(err);
+            done()
+          })
+        })
+      })
     });
   });
 });

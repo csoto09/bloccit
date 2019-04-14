@@ -36,12 +36,33 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "postId",
       as: "votes"
     });
-
-    Post.prototype.getPoints = function() {
-      if(this.votes.length === 0) return 0
-
-      return this.votes.map((v) => { return v.value }).reduce((prev, next) => { return prev + next })
-    }
   };
-  return Post;
-};
+  Post.prototype.getPoints = function() {
+    if(this.votes.length === 0) return 0
+
+    return this.votes.map((v) => { return v.value }).reduce((prev, next) => { return prev + next })
+  }
+
+  Post.prototype.hasUpvoteFor = function(userId) {
+    let hasUpvote = false
+    
+    this.votes.find((vote) => {
+      if (vote.userId === userId && vote.value === 1) {
+        hasUpvote = true
+      }
+    })
+    return hasUpvote
+  }
+
+  Post.prototype.hasDownvoteFor = function(userId) {
+    let hasDownvote = false
+    
+    this.votes.find((vote) => {
+      if (vote.userId === userId && vote.value === 1) {
+        hasDownvote = true
+      }
+    })
+    return hasDownvote
+  }
+  return Post
+}
