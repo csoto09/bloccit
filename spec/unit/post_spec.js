@@ -230,7 +230,7 @@ describe("Post", () => {
       .then((post) => {
         expect(post.hasDownvoteFor(this.user.id)).toBe(false);
         Vote.create({
-          value: 1,
+          value: -1,
           userId: this.user.id,
           postId: this.post.id
         })

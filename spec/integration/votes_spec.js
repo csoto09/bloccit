@@ -183,7 +183,7 @@ describe("routes : votes", () => {
           Vote.findAll()
           .then((votes) => {
             const votesBeforeChange = votes.length
-            expect(votesBeforeChange).toBe(1);
+            expect(votesBeforeChange).toBe(-1);
 
             request.get(options, (err, res, body) => {
               Vote.findAll()
